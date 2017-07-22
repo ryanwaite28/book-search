@@ -1,0 +1,54 @@
+.box {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid grey;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 2px;
+}
+
+.book-img {
+  width: 325px;
+  max-width: 100%;
+  padding: 5px;
+  background: #f2f2f2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+.book-img-2 {
+  width: 125px;
+  max-width: 100%;
+  padding: 5px;
+  background: #f2f2f2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+#results-list, #mybooks-list{
+  margin: 0px;
+  padding: 0px;
+}
+#results-list > li, #mybooks-list > li {
+  list-style: none;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+#mybooks-list > li > div.row {
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+#mybooks-list > li > div.row:hover {
+  background: lightgrey;
+}
+
+#top-text {
+  margin: 0px;
+  padding: 20px;
+  color: white;
+  background: black;
+}
