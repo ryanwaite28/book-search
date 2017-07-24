@@ -46,6 +46,12 @@ App.controller('masterCtrl', ['$scope', function($scope) {
       return;
     }
     $scope.my_books.push(book);
+    $("#msg-popup").removeClass("ghost");
+    $("#msg-popup-container").css("z-index", "10");
+    setTimeout(function(){
+      $("#msg-popup").addClass("ghost");
+      $("#msg-popup-container").css("z-index", "0");
+    }, 3000);
   }
 
   $scope.removeBook = function(book){

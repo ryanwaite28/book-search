@@ -1,154 +1,175 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Book Search</title>
 
-    <link rel="stylesheet" type="text/css" href="https://ryanwaite28.github.io/my-cdn/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="https://ryanwaite28.github.io/my-cdn/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="https://ryanwaite28.github.io/my-cdn/css/emerald.css" />
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <link rel="icon" type="image/png" size="20x20" href="book.png" />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book Search</title>
 
-    <script src="https://ryanwaite28.github.io/my-cdn/js/jquery.js"></script>
-    <script src="https://ryanwaite28.github.io/my-cdn/js/bootstrap.js"></script>
-    <script src="https://ryanwaite28.github.io/my-cdn/js/angular.js"></script>
-    <script src="script.js"></script>
-  </head>
+  <link rel="stylesheet" type="text/css" href="https://ryanwaite28.github.io/my-cdn/css/font-awesome.css" />
+  <link rel="stylesheet" type="text/css" href="https://ryanwaite28.github.io/my-cdn/css/bootstrap.css" />
+  <link rel="stylesheet" type="text/css" href="https://ryanwaite28.github.io/my-cdn/css/emerald.css" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="icon" type="image/png" size="20x20" href="book.png" />
 
-  <body ng-app="bookApp" ng-controller="masterCtrl">
+  <script src="https://ryanwaite28.github.io/my-cdn/js/jquery.js"></script>
+  <script src="https://ryanwaite28.github.io/my-cdn/js/bootstrap.js"></script>
+  <script src="https://ryanwaite28.github.io/my-cdn/js/angular.js"></script>
+  <script src="https://ryanwaite28.github.io/my-cdn/js/emerald.js"></script>
+  <script src="script.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('#bta').click(function() {
+        $('html, body').animate({
+          scrollTop: 0 // $("#sdl").offset().top
+        }, 1000);
+      });
+    });
+  </script>
+</head>
 
-    <!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+<body ng-app="bookApp" ng-controller="masterCtrl">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Book Modal</h4>
-      </div>
-      <div class="modal-body">
-        <div id="{{ current_book.id }}" data-etag="{{ current_book.etag }}" class="row">
-          <div class="col-xs-4">
-            <img class="book-img" src="{{ current_book.volumeInfo.imageLinks.thumbnail }}"/>
-          </div>
-          <div class="col-xs-8">
-            <h4>
+  <img id="bta" class="transition" title="back To Top" src="up-arrow.jpg" />
+
+  <!-- Message Popup -->
+  <div id="msg-popup-container" class="transition">
+    <div id="msg-popup" class="transition ghost">
+      Book Added To Saved!
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Book Modal</h4>
+        </div>
+        <div class="modal-body">
+          <div id="{{ current_book.id }}" data-etag="{{ current_book.etag }}" class="row">
+            <div class="col-xs-4">
+              <img class="book-img" src="{{ current_book.volumeInfo.imageLinks.thumbnail }}" />
+            </div>
+            <div class="col-xs-8">
+              <h4>
               <strong>
                 <a title="{{ current_book.volumeInfo.title }}" href="{{ current_book.volumeInfo.canonicalVolumeLink }}">
                   {{ current_book.volumeInfo.title }}
                 </a>
               </strong>
             </h4>
-            <p><strong>By</strong>: <em>{{ current_book.volumeInfo.authors[0] }}</em></p>
-            <p>{{ current_book.volumeInfo.description }}</p>
-            <br/>
-            <p><strong>Published</strong>: {{  current_book.volumeInfo.publishedDate }}</p>
-            <p><strong>Maturity Rating</strong>: {{  current_book.volumeInfo.maturityRating }}</p>
-            <p><strong>Buy</strong>: <a title="Buy Link" href="{{  current_book.saleInfo.buyLink }}">{{  current_book.saleInfo.buyLink }}</a></p>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-    <!--  -->
-
-    <p class="text-center" id="top-text">
-      <strong>Google Books API</strong>
-    </p>
-
-    <div class="container-fluid" style="padding-top: 15px;">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="box">
-            <div id="search-box">
-              <h3 class="text-center">Search For Books</h3>
-              <input type="text" class="middlr" placeholder="Title or category" ng-model="query"/>
+              <p><strong>By</strong>: <em>{{ current_book.volumeInfo.authors[0] }}</em></p>
+              <p>{{ current_book.volumeInfo.description }}</p>
               <br/>
-              <p class="text-center"><a class="btn btn-success trantition" ng-click="searchBooks()">Submit</a></p>
-              <p class="text-center"><a class="btn btn-primary trantition" ng-click="clearResults()">Clear Results</a></p>
-              <br>
-              <p class="text-center" id="msg"></p>
-            </div>
+              <p><strong>Published</strong>: {{ current_book.volumeInfo.publishedDate }}</p>
+              <p><strong>Maturity Rating</strong>: {{ current_book.volumeInfo.maturityRating }}</p>
+              <p><strong>Buy</strong>: <a title="Buy Link" href="{{  current_book.saleInfo.buyLink }}">{{  current_book.saleInfo.buyLink }}</a></p>
 
-            <div id="loading-box" style="display: none;">
-              <img class="middlr" src="Loading_icon.gif" width="175px"/>
-            </div>
-          </div>
-
-          <div class="box">
-            <div id="books-box">
-              <h3 class="text-center">Saved Books</h3>
-              <p class="text-center">{{ my_books.length }}</p>
-              <hr/>
-              <ul id="mybooks-list">
-                <li ng-repeat="book in my_books">
-                  <div title="Show This Book's Info" id="{{ book.id }}" data-etag="{{ book.etag }}" class="row transition" ng-click="showBook(this.book)">
-                    <div class="col-xs-12">
-                      <img class="book-img-2" src="{{ book.volumeInfo.imageLinks.thumbnail }}"/>
-                    </div>
-                    <div class="col-xs-12">
-                      <h4>
-                        <strong>
-                          <a title="{{ book.volumeInfo.title }}" href="{{ book.volumeInfo.canonicalVolumeLink }}">
-                            {{ book.volumeInfo.title }}
-                          </a>
-                        </strong>
-                      </h4>
-                      <p class="text-left"><a class="btn btn-info transition" ng-click="removeBook(this.book)">Remove</a></p>
-                    </div>
-                  </div>
-                  <hr/>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-8">
-          <div class="box">
-            <div id="results-box">
-              <h3 class="text-center">Results</h3>
-              <p class="text-center" id="query"></p>
-              <hr/>
-              <ul id="results-list">
-                <li ng-repeat="book in results_books">
-                  <div id="{{ book.id }}" data-etag="{{ book.etag }}" class="row">
-                    <div class="col-xs-4">
-                      <img class="book-img" src="{{ book.volumeInfo.imageLinks.thumbnail }}"/>
-                    </div>
-                    <div class="col-xs-8">
-                      <h4>
-                        <strong>
-                          <a title="{{ book.volumeInfo.title }}" href="{{ book.volumeInfo.canonicalVolumeLink }}">
-                            {{ book.volumeInfo.title }}
-                          </a>
-                        </strong>
-                      </h4>
-                      <p><strong>By</strong>: <em>{{ book.volumeInfo.authors[0] }}</em></p>
-                      <p>{{ book.volumeInfo.description }}</p>
-                      <br/>
-                      <p><strong>Published</strong>: {{  book.volumeInfo.publishedDate }}</p>
-                      <p><strong>Maturity Rating</strong>: {{  book.volumeInfo.maturityRating }}</p>
-                      <p><strong>Buy</strong>: <a title="Buy Link" href="{{  book.saleInfo.buyLink }}">{{  book.saleInfo.buyLink }}</a></p>
-                      <br/>
-                      <p class="text-left"><a class="btn btn-info transition" ng-click="addBook(this.book)">Add To Saved</a></p>
-                    </div>
-                  </div>
-                  <hr/>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </body>
+    </div>
+  </div>
+
+  <!--  -->
+
+  <p class="text-center" id="top-text">
+    <strong>Google Books API</strong>
+  </p>
+
+  <div class="container-fluid" style="padding-top: 15px;">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="box">
+          <div id="search-box">
+            <h3 class="text-center">Search For Books</h3>
+            <input type="text" class="middlr transition max-w" placeholder="Title or category" ng-model="query" />
+            <br/>
+            <p class="text-center"><a class="btn btn-success trantition" ng-click="searchBooks()">Submit</a></p>
+            <p class="text-center"><a class="btn btn-primary trantition" ng-click="clearResults()">Clear Results</a></p>
+            <br>
+            <p class="text-center" id="msg"></p>
+          </div>
+
+          <div id="loading-box" style="display: none;">
+            <img class="middlr" src="Loading_icon.gif" width="175px" />
+          </div>
+        </div>
+
+        <div class="box">
+          <div id="books-box">
+            <h3 class="text-center">Saved Books</h3>
+            <p class="text-center">{{ my_books.length }}</p>
+            <hr/>
+            <ul id="mybooks-list">
+              <li ng-repeat="book in my_books">
+                <div title="Show This Book's Info" id="{{ book.id }}" data-etag="{{ book.etag }}" class="row transition" ng-click="showBook(this.book)">
+                  <div class="col-md-12">
+                    <img class="book-img-2" src="{{ book.volumeInfo.imageLinks.thumbnail }}" />
+                  </div>
+                  <div class="col-md-12">
+                    <h4>
+                        <strong>
+                          <a title="{{ book.volumeInfo.title }}" href="{{ book.volumeInfo.canonicalVolumeLink }}">
+                            {{ book.volumeInfo.title }}
+                          </a>
+                        </strong>
+                      </h4>
+                    <p class="text-left"><a class="btn btn-info transition" ng-click="removeBook(this.book)">Remove</a></p>
+                  </div>
+                </div>
+                <hr/>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="box">
+          <div id="results-box">
+            <h3 class="text-center">Results</h3>
+            <p class="text-center" id="query"></p>
+            <hr/>
+            <ul id="results-list">
+              <li ng-repeat="book in results_books">
+                <div id="{{ book.id }}" data-etag="{{ book.etag }}" class="row">
+                  <div class="col-md-4">
+                    <img class="book-img" src="{{ book.volumeInfo.imageLinks.thumbnail }}" />
+                  </div>
+                  <div class="col-md-8">
+                    <h4>
+                        <strong>
+                          <a title="{{ book.volumeInfo.title }}" href="{{ book.volumeInfo.canonicalVolumeLink }}">
+                            {{ book.volumeInfo.title }}
+                          </a>
+                        </strong>
+                      </h4>
+                    <p><strong>By</strong>: <em>{{ book.volumeInfo.authors[0] }}</em></p>
+                    <p>{{ book.volumeInfo.description }}</p>
+                    <br/>
+                    <p><strong>Published</strong>: {{ book.volumeInfo.publishedDate }}</p>
+                    <p><strong>Maturity Rating</strong>: {{ book.volumeInfo.maturityRating }}</p>
+                    <p><strong>Buy</strong>: <a title="Buy Link" href="{{  book.saleInfo.buyLink }}">{{  book.saleInfo.buyLink }}</a></p>
+                    <br/>
+                    <p class="text-left"><a class="btn btn-info transition" ng-click="addBook(this.book)">Add To Saved</a></p>
+                  </div>
+                </div>
+                <hr/>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
 </html>
